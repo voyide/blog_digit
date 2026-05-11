@@ -77,11 +77,14 @@
         }
 
         blockquote {
+            background: #ffffff;
             margin: 30px 0;
-            padding: 0 20px;
-            border-left: 3px solid #ccc;
+            padding: 15px 20px;
+            border-left: 3px solid #cccccc;
+            border-radius: 0 4px 4px 0;
             font-style: italic;
-            color: #555;
+            color: #555555;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
 
         .sequence-list {
@@ -93,6 +96,11 @@
             font-size: 0.9em;
             line-height: 2;
             overflow-x: auto;
+        }
+
+        .variation-title {
+            font-weight: 600;
+            color: var(--heading-color);
         }
 
         @media (max-width: 600px) {
@@ -127,30 +135,35 @@
     <p>So it's insightful to abstract the idea, which in this case would be 'a particular operation on digits of a natural number' then changing the variables of the idea as "what if the operations were different or more than one", "what if we take digits in different ways" and so on. So that, I did, multiplication, division, subtraction...(which was the most interesting as multiplication has problems with zeroes (which can of course be bypassed and explored) and division, well it gives rational values (though we can floor the results or use any other operation to get integers that seems too convoluted to have any interesting pattern)). Now subtraction instead of addition can still go many ways depending on how one chooses to explore it. The most obvious first step would be to just find the value by putting a minus sign between each digit as in the digital sum with +.</p>
 
     <h3>1.2 Concatenation</h3>
-    <p>I was really into concatenating (attaching two numbers to make a single, like say we have 23 and 45 then 2345 is the number we get by concatenating them in order) the digits back then, so at first I tried it with the digital sum with + as follows: say we have 12345 then we sum the consecutive digits and concatenate their sums like this: 1+2= 3, 2+3 = 5, 3+4=7, 4+5=9, the sums are 3,5,7,9 and thus we join them into one as 3579. We can denote this process by a function, say S(n), so S(12345) = 3579, we can apply S to 3579 as well, S(3579) = 81216, applying again S(81216) = 9337 and so on (this could loop as is often the case with such systems or explode to infinity, you can check if you're interested, there are many questions one could ask here to maximise the probability of finding interesting patterns, like "does any number loop back to itself" or "sequence of those numbers for which it loops and their loop length" and so on).</p>
+    <p>I was really into concatenating (attaching two numbers to make a single, like say we have 23 and 45 then 2345 is the number we get by concatenating them in order) the digits back then, so at first I tried it with the digital sum with + as follows: say we have 12345 then we sum the consecutive digits and concatenate their sums like this: 1+2= 3, 2+3 = 5, 3+4=7, 4+5=9, the sums are 3,5,7,9 and thus we join them into one as 3579. We can denote this process by a function, say $S(n)$, so $S(12345) = 3579$, we can apply $S$ to 3579 as well, $S(3579) = 81216$, applying again $S(81216) = 9337$ and so on (this could loop as is often the case with such systems or explode to infinity, you can check if you're interested, there are many questions one could ask here to maximise the probability of finding interesting patterns, like "does any number loop back to itself" or "sequence of those numbers for which it loops and their loop length" and so on).</p>
 
     <h3>1.3 Concatenation subtraction and $d_n$</h3>
-    <p>I was more interested in exploring this idea with the minus operation, but the problem arises when we get negative numbers, for example consider this: n=12321, now finding the difference of consecutive digits would get us 1-2 = -1, 2-3 = -1, 3-2 = 1 and 2-1 = 1, we can't just concatenate them as -1-111, that'd just be meaningless. The obvious fix is taking the absolute difference (the absolute value, denoted by |n|, of any number is the positive part/distance from origin, so |-1| would be 1). Now if we take absolute difference in the above example then the resulting number after concatenation would be 1111. Applying the same procedure on 1111 again gives 0. This procedure can be denoted as a function D(n). So D(123) = 11, D(345)= 11 and so on. We see both 123 and 345 give 11 when evaluated at D(n). So the natural question to ask is how many numbers give 11 when evaluated at D? There are infinite such numbers (123, 1123, 11123) thus we have to modify the question a bit to get something meaningful out of it. So we restrict the question to only 3-digit numbers, or in general when asking how many numbers give n (say a k digit number) we only focus on the solutions that are k+1 digit (note that if we chose k+2, k+3, or any other higher digits (higher because lower and same digited numbers would always give output which is strictly lower in digit count, when evaluated at D) the count would be the same!).</p>
+    <p>I was more interested in exploring this idea with the minus operation, but the problem arises when we get negative numbers, for example consider this: $n=12321$, now finding the difference of consecutive digits would get us 1-2 = -1, 2-3 = -1, 3-2 = 1 and 2-1 = 1, we can't just concatenate them as -1-111, that'd just be meaningless. The obvious fix is taking the absolute difference (the absolute value, denoted by $|n|$, of any number is the positive part/distance from origin, so $|-1|$ would be 1). Now if we take absolute difference in the above example then the resulting number after concatenation would be 1111. Applying the same procedure on 1111 again gives 0. This procedure can be denoted as a function $D(n)$. So $D(123) = 11$, $D(345)= 11$ and so on. We see both 123 and 345 give 11 when evaluated at $D(n)$. So the natural question to ask is how many numbers give 11 when evaluated at $D$? There are infinite such numbers (123, 1123, 11123) thus we have to modify the question a bit to get something meaningful out of it. So we restrict the question to only 3-digit numbers, or in general when asking how many numbers give $n$ (say a $k$-digit number) we only focus on the solutions that are $k+1$ digit (note that if we chose $k+2$, $k+3$, or any other higher digits (higher because lower and same digited numbers would always give output which is strictly lower in digit count, when evaluated at $D$) the count would be the same!).</p>
 
     <h3>1.4 $D_n$ and Solutions</h3>
-    <p>So say we wanna find out how many 2 digit numbers give 1 when evaluated at D. The solutions, as one can easily list down, are 10,12,21,23,32,34,43,45,54,56,65,67,76,78,87,89,98, which is 17 in count. You might have noticed that when $d_1d_2$ is a solution then its reverse $d_2d_1$ is also a solution, but that's not true in general. For example $D(123) \neq D(321)$ so they aren't the solutions for the same n.</p>
-    <p>There's another way we can pair the solutions which is simple, but not obvious from the solution list at first glance. Let's see, say we have 123 and 876 would they both give the same output at D? Yes, they both give 11. What about 101 and 898 would they also give the same output? Yes they both give 11 too. What's the connection between them though? Notice if we subtract each digit from 9 and concatenate we get the other number, for example 9-1=8, 9-0=9, 9-1=8, so 898. In general it's not hard to see that whenever $d_1d_2...d_k$ is a solution then so is its mirrored version $(9-d_1)...(9-d_k)$ is also a solution. But pairs aren't valid for some solutions, like for 98 its mirror is 01 but that's not a 2 digit number. We can work around it to define 01 as a 2 digit number so that every solution has a pair for all n.</p>
+    <p>So say we wanna find out how many 2-digit numbers give 1 when evaluated at $D$. The solutions, as one can easily list down, are 10, 12, 21, 23, 32, 34, 43, 45, 54, 56, 65, 67, 76, 78, 87, 89, 98, which is 17 in count. You might have noticed that when $d_1d_2$ is a solution then its reverse $d_2d_1$ is also a solution, but that's not true in general. For example $D(123) \neq D(321)$ so they aren't the solutions for the same $n$.</p>
+    <p>There's another way we can pair the solutions which is simple, but not obvious from the solution list at first glance. Let's see, say we have 123 and 876 would they both give the same output at $D$? Yes, they both give 11. What about 101 and 898 would they also give the same output? Yes they both give 11 too. What's the connection between them though? Notice if we subtract each digit from 9 and concatenate we get the other number, for example 9-1=8, 9-0=9, 9-1=8, so 898. In general it's not hard to see that whenever $d_1d_2...d_k$ is a solution then so is its mirrored version $(9-d_1)...(9-d_k)$ is also a solution. But pairs aren't valid for some solutions, like for 98 its mirror is 01 but that's not a 2-digit number. We can work around it to define 01 as a 2-digit number so that every solution has a pair for all $n$.</p>
 
     <h3>1.5 Tuples</h3>
-    <p>We can avoid such convoluted workarounds if we work with tuples, in which even if the first few elements are 0, by definition it is distinct from the tuple you'd get by removing the leading zero elements. A tuple is just an ordered collection of objects denoted as $(x_1,...,x_{k+1})$ where objects are separated and called elements, and the number of elements is called length of the tuple. So the definition changes from</p>
+    <p>We can avoid such convoluted workarounds if we work with tuples, in which even if the first few elements are 0, by definition it is distinct from the tuple you'd get by removing the leading zero elements. A tuple is just an ordered collection of objects denoted as $(x_1,...,x_{k+1})$ where objects are separated and called elements, and the number of elements is called length of the tuple. So the definition changes from:</p>
     
     <blockquote>
-        "how many $k+1$ digit numbers give $n = d_1...d_k$ as output when evaluated at $D$"
+        "How many $k+1$ digit numbers give $n = d_1...d_k$ as output when evaluated at $D$?"
     </blockquote>
     
-    <p>to "how many length $k+1$ tuples, where each element $x_i \in \{0,1,...,9\}$ and $|x_i - x_{i+1}| = d_i$ where $d_i$ is the ith digit of $n = d_1...d_k$."</p>
-    <p>If this definition is hard to understand, note that we're just equating the absolute difference of two consecutive elements of the tuple with the corresponding digit of $n$, which is exactly the same as the D function just stated differently.</p>
+    <p>to:</p>
+
+    <blockquote>
+        "How many length $k+1$ tuples are there, where each element $x_i \in \{0,1,\dots,9\}$ and $|x_i - x_{i+1}| = d_i$, where $d_i$ is the $i$-th digit of $n = d_1...d_k$?"
+    </blockquote>
+    
+    <p>If this definition is hard to understand, note that we're just equating the absolute difference of two consecutive elements of the tuple with the corresponding digit of $n$, which is exactly the same as the $D$ function just stated differently.</p>
 
     <h3>1.6 $a(n)$</h3>
-    <p>Let $a(n)$ be the count of such tuples for any $n \in \{0,1,2,...\}$. The first thing that is obvious is:</p>
+    <p>Let $a(n)$ be the count of such tuples for any $n \in \{0,1,2,\dots\}$. The first thing that is obvious is:</p>
 
     <div class="theorem">
-        <strong>Theorem 1:</strong> $a(n)$ is even for all n.
+        <strong>Theorem 1:</strong> $a(n)$ is even for all $n$.
         <span class="proof">Proof: Solutions occur in pairs.</span>
     </div>
 
@@ -165,13 +178,13 @@
     <p>The first thing that the terms reveal is that it's right to group them as 10 terms. Note that $a(1) = a(10)$ and $a(2) = a(20)$, in general zeroes don't change the value of $a(n)$.</p>
 
     <h3>1.7 Visualising</h3>
-    <p>Now another question is, given that they are all even, what would happen if we divide them by 2. The sequence would then have both even and odd terms, but is there anything interesting in there? Let's see. To see the parity we decided to arrange the first 100 terms on a 10 by 10 grid and highlight cells mod 2, why? As we've noticed, grouping them as a collection of terms seems only natural so arranging them on a grid is obvious if one gets the idea to highlight it visually.</p>
+    <p>Now another question is, given that they are all even, what would happen if we divide them by 2. The sequence would then have both even and odd terms, but is there anything interesting in there? Let's see. To see the parity we decided to arrange the first 100 terms on a 10 by 10 grid and highlight cells $\pmod{2}$, why? As we've noticed, grouping them as a collection of terms seems only natural so arranging them on a grid is obvious if one gets the idea to highlight it visually.</p>
 
-    <p>So what is the resulting grid? Let's see</p>
+    <p>So what is the resulting grid? Let's see:</p>
 
     <img src="first-hundred-terms-grid.png" alt="First hundred terms grid" class="responsive-img">
 
-    <p>Isn't it interesting? Now given the symmetric pattern we're naturally curious to see what the next 100 terms if plotted mod 4 (which is the same as dividing by 2 and highlighting even and odd cells) would look like. Following are the 4 grids for the next 400 terms:</p>
+    <p>Isn't it interesting? Now given the symmetric pattern we're naturally curious to see what the next 100 terms if plotted $\pmod{4}$ (which is the same as dividing by 2 and highlighting even and odd cells) would look like. Following are the 4 grids for the next 400 terms:</p>
 
     <img src="next-four-hundred-grids.png" alt="Next four hundred grids" class="responsive-img">
 
@@ -183,7 +196,7 @@
     <div class="theorem">
         <strong>Theorem 2:</strong> $a(n) \equiv a(m) \pmod{4}$, where $n = d_1d_2...d_k$, $m = d_1d_2...d_{k'}$, $d_{k'}$ is $10-d_k$ and $d_k \neq 0$. 
         
-        <span class="proof"><strong>Proof:</strong> Consider $x_1-x_2$ where $x_1,x_2 \in \{0,1,...,9\}$, it's in the range $[-9,9]$.<br><br>
+        <span class="proof"><strong>Proof:</strong> Consider $x_1-x_2$ where $x_1,x_2 \in \{0,1,\dots,9\}$, it's in the range $[-9,9]$.<br><br>
         
         We consider it valid if it's in the range $[0,9]$ and invalid if otherwise.<br><br>
         
@@ -195,18 +208,35 @@
         
         Now consider $a(n)$ and $a(m)$ which are digits of the same length, same first $k-1$ terms and just differing at the last digit. Ignoring the case when $d_k$ is 0 or 5 as these are trivial and also the reason for putting mod in the $10-d_k$ element. Now we don't have to worry about the mod.<br><br>
         
-        Consider $n'$ which is the first $k-1$ equal digits of both $n$ and $m$. Think of finding the solutions as starting with the first 10 digits $\{0,1,2,...,9\}$ and shifting these by $\pm d_1$ to get another collection and continuing the shift sequentially using each successive $d_i$. If you stop after shifting up to $d_i$ then the count of your collection would be $a(d_1,d_2,...,d_i)$.<br><br>
+        Consider $n'$ which is the first $k-1$ equal digits of both $n$ and $m$. Think of finding the solutions as starting with the first 10 digits $\{0,1,2,\dots,9\}$ and shifting these by $\pm d_1$ to get another collection and continuing the shift sequentially using each successive $d_i$. If you stop after shifting up to $d_i$ then the count of your collection would be $a(d_1,d_2,\dots,d_i)$.<br><br>
         
         Now say we calculate all the collections of tuples for $a(n')$, the last shift would determine the count of $a(n)$ and $a(m)$, which would be $d_k$ and $10-d_k$ respectively.<br><br>
         
         Now from our initial insights we can easily see that for each valid solution (tuples whose last element remains within bound) for $a(n)$ implies an invalid solution for $a(m)$ and for each invalid solution in $a(n)$ there is a valid solution in $a(m)$.<br><br>
         
-        Logically, sum of valid and invalid solutions for any term $a(d_1,...,d_i)$ is $2 \times a(d_1,...,d_{i-1})$.<br><br>
+        Logically, sum of valid and invalid solutions for any term $a(d_1,\dots,d_i)$ is $2 \times a(d_1,\dots,d_{i-1})$.<br><br>
         
         So $a(n) + a(m) = 2 \times a(n')$, and since $a(n')$ is even we conclude that $a(n) + a(m) \equiv 0 \pmod{4}$. $\square$</span>
     </div>
 
     <p>This explains the symmetry. But why each grid has specific pattern can also be analysed mathematically (I'll explain that in the next blog).</p>
+
+    <h3>1.9 Patterns</h3>
+    <p>We can generalise the sequence for any base $b$. When we visualise a 400×400 grid containing the first 160000 terms for the sequence in base $b$ we get this:</p>
+
+    <img src="base-b-grid-pattern.png" alt="Base b grid pattern" class="responsive-img">
+
+    <p>If the base is 30 and we arrange the terms in a 900×900 grid and take a 30x30 portion of the grid from top left moving to the right and make that a gif, we get:</p>
+
+    <img src="base-thirty-animated-grid.gif" alt="Animated grid base thirty" class="responsive-img">
+
+    <p><span class="variation-title">Symmetric variation:</span> If we modify the rule such that the main condition is $|x_i - x_{i+1}| = d_i \quad \text{or} \quad b - d_i$ where $b$ is the base and highlight the first 810000 terms on a 900×900 grid we get this (base 30):</p>
+
+    <img src="symmetric-variation-base-thirty.png" alt="Symmetric variation base thirty" class="responsive-img">
+
+    <p><span class="variation-title">Anchor + symmetric variation:</span> If again we modify $|x_1 - x_{i+1}| = d_i \quad \text{or} \quad b - d_i$ we get:</p>
+
+    <img src="anchor-symmetric-variation-grid.png" alt="Anchor symmetric variation grid" class="responsive-img">
 
 </body>
 </html>
