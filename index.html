@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploring Digit Sequences and Tuples</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fafafa;
+            --text-color: #333333;
+            --heading-color: #111111;
+            --link-color: #000000;
+            --border-color: #eaeaea;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            font-size: 17px;
+            letter-spacing: -0.01em;
+        }
+
+        h1, h2, h3 {
+            color: var(--heading-color);
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.75em;
+            letter-spacing: -0.02em;
+        }
+
+        h1 { 
+            font-size: 2.25rem; 
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 12px; 
+            margin-top: 1em;
+        }
+        h2 { font-size: 1.75rem; }
+        h3 { font-size: 1.25rem; }
+
+        p { margin-bottom: 1.5em; }
+
+        .responsive-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 40px auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .theorem {
+            background: #ffffff;
+            border-left: 3px solid var(--heading-color);
+            padding: 20px 24px;
+            margin: 30px 0;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+
+        .proof {
+            font-style: italic;
+            color: #555555;
+            display: block;
+            margin-top: 10px;
+        }
+
+        blockquote {
+            margin: 30px 0;
+            padding: 0 20px;
+            border-left: 3px solid #ccc;
+            font-style: italic;
+            color: #555;
+        }
+
+        .sequence-list {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.9em;
+            line-height: 2;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 20px 15px; font-size: 16px; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.2rem; }
+        }
+    </style>
+    
+    <!-- MathJax Configuration for LaTeX Rendering -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <h1>1. Introduction</h1>
+    <p>Integer sequences have always fascinated me from the moment I became familiar with them. The rules that generate them (thus I began playing with different rules), the patterns they exhibit (, looking for patterns in them), the formulas for their sums (, and finding the formulas/properties/theorems that'd describe/explain the patterns).</p>
+    <p>One such encounter was the digit sequence for which this blog exists. I could just list the definition, theorems, and explain them though that'd not be much fun.</p>
+
+    <h3>1.1 Operations</h3>
+    <p>It begins with me playing around with the digit sums (summing all the digits of a natural number, like say we've got 123, we can sum the digits to get 1+2+3=6), though as one should realise we aren't limited by predefined definitions and operations, we can very well create new operations and study them (like say we've got 123 then we define an operation which gives 35 = 12+23 (not hard to figure what the rule of the operation here is) or another operation that takes say 1234567890 and gives 8370=1+23+456+7890 (this is just to show that rules can be created and explored thus the limit is only our imagination, though there's no guarantee what patterns, if at all, one would find, thus patience and intuition is needed too).</p>
+    <p>So it's insightful to abstract the idea, which in this case would be 'a particular operation on digits of a natural number' then changing the variables of the idea as "what if the operations were different or more than one", "what if we take digits in different ways" and so on. So that, I did, multiplication, division, subtraction...(which was the most interesting as multiplication has problems with zeroes (which can of course be bypassed and explored) and division, well it gives rational values (though we can floor the results or use any other operation to get integers that seems too convoluted to have any interesting pattern)). Now subtraction instead of addition can still go many ways depending on how one chooses to explore it. The most obvious first step would be to just find the value by putting a minus sign between each digit as in the digital sum with +.</p>
+
+    <h3>1.2 Concatenation</h3>
+    <p>I was really into concatenating (attaching two numbers to make a single, like say we have 23 and 45 then 2345 is the number we get by concatenating them in order) the digits back then, so at first I tried it with the digital sum with + as follows: say we have 12345 then we sum the consecutive digits and concatenate their sums like this: 1+2= 3, 2+3 = 5, 3+4=7, 4+5=9, the sums are 3,5,7,9 and thus we join them into one as 3579. We can denote this process by a function, say S(n), so S(12345) = 3579, we can apply S to 3579 as well, S(3579) = 81216, applying again S(81216) = 9337 and so on (this could loop as is often the case with such systems or explode to infinity, you can check if you're interested, there are many questions one could ask here to maximise the probability of finding interesting patterns, like "does any number loop back to itself" or "sequence of those numbers for which it loops and their loop length" and so on).</p>
+
+    <h3>1.3 Concatenation subtraction and $d_n$</h3>
+    <p>I was more interested in exploring this idea with the minus operation, but the problem arises when we get negative numbers, for example consider this: n=12321, now finding the difference of consecutive digits would get us 1-2 = -1, 2-3 = -1, 3-2 = 1 and 2-1 = 1, we can't just concatenate them as -1-111, that'd just be meaningless. The obvious fix is taking the absolute difference (the absolute value, denoted by |n|, of any number is the positive part/distance from origin, so |-1| would be 1). Now if we take absolute difference in the above example then the resulting number after concatenation would be 1111. Applying the same procedure on 1111 again gives 0. This procedure can be denoted as a function D(n). So D(123) = 11, D(345)= 11 and so on. We see both 123 and 345 give 11 when evaluated at D(n). So the natural question to ask is how many numbers give 11 when evaluated at D? There are infinite such numbers (123, 1123, 11123) thus we have to modify the question a bit to get something meaningful out of it. So we restrict the question to only 3-digit numbers, or in general when asking how many numbers give n (say a k digit number) we only focus on the solutions that are k+1 digit (note that if we chose k+2, k+3, or any other higher digits (higher because lower and same digited numbers would always give output which is strictly lower in digit count, when evaluated at D) the count would be the same!).</p>
+
+    <h3>1.4 $D_n$ and Solutions</h3>
+    <p>So say we wanna find out how many 2 digit numbers give 1 when evaluated at D. The solutions, as one can easily list down, are 10,12,21,23,32,34,43,45,54,56,65,67,76,78,87,89,98, which is 17 in count. You might have noticed that when $d_1d_2$ is a solution then its reverse $d_2d_1$ is also a solution, but that's not true in general. For example $D(123) \neq D(321)$ so they aren't the solutions for the same n.</p>
+    <p>There's another way we can pair the solutions which is simple, but not obvious from the solution list at first glance. Let's see, say we have 123 and 876 would they both give the same output at D? Yes, they both give 11. What about 101 and 898 would they also give the same output? Yes they both give 11 too. What's the connection between them though? Notice if we subtract each digit from 9 and concatenate we get the other number, for example 9-1=8, 9-0=9, 9-1=8, so 898. In general it's not hard to see that whenever $d_1d_2...d_k$ is a solution then so is its mirrored version $(9-d_1)...(9-d_k)$ is also a solution. But pairs aren't valid for some solutions, like for 98 its mirror is 01 but that's not a 2 digit number. We can work around it to define 01 as a 2 digit number so that every solution has a pair for all n.</p>
+
+    <h3>1.5 Tuples</h3>
+    <p>We can avoid such convoluted workarounds if we work with tuples, in which even if the first few elements are 0, by definition it is distinct from the tuple you'd get by removing the leading zero elements. A tuple is just an ordered collection of objects denoted as $(x_1,...,x_{k+1})$ where objects are separated and called elements, and the number of elements is called length of the tuple. So the definition changes from</p>
+    
+    <blockquote>
+        "how many $k+1$ digit numbers give $n = d_1...d_k$ as output when evaluated at $D$"
+    </blockquote>
+    
+    <p>to "how many length $k+1$ tuples, where each element $x_i \in \{0,1,...,9\}$ and $|x_i - x_{i+1}| = d_i$ where $d_i$ is the ith digit of $n = d_1...d_k$."</p>
+    <p>If this definition is hard to understand, note that we're just equating the absolute difference of two consecutive elements of the tuple with the corresponding digit of $n$, which is exactly the same as the D function just stated differently.</p>
+
+    <h3>1.6 $a(n)$</h3>
+    <p>Let $a(n)$ be the count of such tuples for any $n \in \{0,1,2,...\}$. The first thing that is obvious is:</p>
+
+    <div class="theorem">
+        <strong>Theorem 1:</strong> $a(n)$ is even for all n.
+        <span class="proof">Proof: Solutions occur in pairs.</span>
+    </div>
+
+    <p>If we look at the terms of this sequence,</p>
+
+    <div class="sequence-list">
+        $a(0)$ to $a(9)$ : 10, 18, 16, 14, 12, 10, 8, 6, 4, 2<br>
+        $a(10)$ to $a(19)$ : 18, 34, 30, 26, 22, 18, 14, 10, 6, 2<br>
+        $a(20)$ to $a(29)$ : 16, 30, 28, 24, 20, 16, 12, 8, 4, 2
+    </div>
+
+    <p>The first thing that the terms reveal is that it's right to group them as 10 terms. Note that $a(1) = a(10)$ and $a(2) = a(20)$, in general zeroes don't change the value of $a(n)$.</p>
+
+    <h3>1.7 Visualising</h3>
+    <p>Now another question is, given that they are all even, what would happen if we divide them by 2. The sequence would then have both even and odd terms, but is there anything interesting in there? Let's see. To see the parity we decided to arrange the first 100 terms on a 10 by 10 grid and highlight cells mod 2, why? As we've noticed, grouping them as a collection of terms seems only natural so arranging them on a grid is obvious if one gets the idea to highlight it visually.</p>
+
+    <p>So what is the resulting grid? Let's see</p>
+
+    <img src="first-hundred-terms-grid.png" alt="First hundred terms grid" class="responsive-img">
+
+    <p>Isn't it interesting? Now given the symmetric pattern we're naturally curious to see what the next 100 terms if plotted mod 4 (which is the same as dividing by 2 and highlighting even and odd cells) would look like. Following are the 4 grids for the next 400 terms:</p>
+
+    <img src="next-four-hundred-grids.png" alt="Next four hundred grids" class="responsive-img">
+
+    <h3>1.8 The symmetry explained</h3>
+    <p>What can explain these patterns? There are many interesting reasons behind it. Firstly, note that ignoring the first column (which is just a copy of the 6th column) the remaining columns are symmetric (along the 6th column or when $d_k = 5$), which implies the terms have the same parity, we can denote that mathematically as $a(d_1d_2...d_k) \equiv a(d_1d_2...d_{k'}) \pmod{4}$, where $d_{k'}$ is $10-d_k$.</p>
+
+    <p>Let's prove this:</p>
+
+    <div class="theorem">
+        <strong>Theorem 2:</strong> $a(n) \equiv a(m) \pmod{4}$, where $n = d_1d_2...d_k$, $m = d_1d_2...d_{k'}$, $d_{k'}$ is $10-d_k$ and $d_k \neq 0$. 
+        
+        <span class="proof"><strong>Proof:</strong> Consider $x_1-x_2$ where $x_1,x_2 \in \{0,1,...,9\}$, it's in the range $[-9,9]$.<br><br>
+        
+        We consider it valid if it's in the range $[0,9]$ and invalid if otherwise.<br><br>
+        
+        Now, if $x_1-x_2$ is valid then $x_1-x_2+10$ is in the range $[10,19]$, thus invalid.<br>
+        And, if $x_1-x_2$ is invalid then $x_1-x_2 +10$ is in the range $[1,9]$, thus valid.<br><br>
+        
+        If $x_1+x_2$ is valid then $x_1+x_2-10$ is in the range $[-10,-1]$, thus invalid.<br>
+        And, if $x_1+x_2$ is invalid then $x_1+x_2- 10$ is in the range $[0,9]$, thus valid.<br><br>
+        
+        Now consider $a(n)$ and $a(m)$ which are digits of the same length, same first $k-1$ terms and just differing at the last digit. Ignoring the case when $d_k$ is 0 or 5 as these are trivial and also the reason for putting mod in the $10-d_k$ element. Now we don't have to worry about the mod.<br><br>
+        
+        Consider $n'$ which is the first $k-1$ equal digits of both $n$ and $m$. Think of finding the solutions as starting with the first 10 digits $\{0,1,2,...,9\}$ and shifting these by $\pm d_1$ to get another collection and continuing the shift sequentially using each successive $d_i$. If you stop after shifting up to $d_i$ then the count of your collection would be $a(d_1,d_2,...,d_i)$.<br><br>
+        
+        Now say we calculate all the collections of tuples for $a(n')$, the last shift would determine the count of $a(n)$ and $a(m)$, which would be $d_k$ and $10-d_k$ respectively.<br><br>
+        
+        Now from our initial insights we can easily see that for each valid solution (tuples whose last element remains within bound) for $a(n)$ implies an invalid solution for $a(m)$ and for each invalid solution in $a(n)$ there is a valid solution in $a(m)$.<br><br>
+        
+        Logically, sum of valid and invalid solutions for any term $a(d_1,...,d_i)$ is $2 \times a(d_1,...,d_{i-1})$.<br><br>
+        
+        So $a(n) + a(m) = 2 \times a(n')$, and since $a(n')$ is even we conclude that $a(n) + a(m) \equiv 0 \pmod{4}$. $\square$</span>
+    </div>
+
+    <p>This explains the symmetry. But why each grid has specific pattern can also be analysed mathematically (I'll explain that in the next blog).</p>
+
+</body>
+</html>
